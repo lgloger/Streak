@@ -6,9 +6,10 @@ import SignupScreen from "./screens/SignupScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import EmailSentScreen from "./screens/EmailSentScreen";
 import HomeScreen from "./screens/HomeScreen";
+import AddHabitScreen from "./screens/addHabitScreen";
 import { auth } from "./js/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import { StyleSheet, ActivityIndicator, View } from "react-native";
+import { StyleSheet, ActivityIndicator, View, Text } from "react-native";
 
 const Stack = createStackNavigator();
 
@@ -28,7 +29,8 @@ const AppNavigator = () => {
   if (loading) {
     return (
       <View style={loadingStyles.loadingContainer}>
-        <ActivityIndicator size="large" color="#387AFF" />
+        <ActivityIndicator size="large" color="#000000" style={{marginBottom: 10,}} />
+        <Text style={loadingStyles.loadingText}>Logging in</Text>
       </View>
     );
   }
@@ -61,6 +63,11 @@ const AppNavigator = () => {
           component={HomeScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="AddHabit"
+          component={AddHabitScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -72,9 +79,15 @@ const loadingStyles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#000000",
+    backgroundColor: "#E8E8E8",
     padding: 10,
-  }
+  },
+
+  loadingText: {
+    fontSize: 18,
+    fontFamily: "Poppins-Medium",
+    color: "#000000",
+  },
 });
 
 export default AppNavigator;

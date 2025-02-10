@@ -15,7 +15,7 @@ const SigninViewModel = (navigation) => {
   const handleSignin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigation.navigate("Home");
+      navigation.replace("Home");
     } catch (error) {
       console.log("Login failed!", error.message);
     }
@@ -49,7 +49,7 @@ const SignupViewModel = (navigation) => {
         email: email,
       });
 
-      navigation.navigate("Home");
+      navigation.replace("Home");
     } catch (error) {
       console.log("Signup failed!", error.message);
     }

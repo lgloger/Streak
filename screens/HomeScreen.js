@@ -13,22 +13,51 @@ import {
 } from "react-native";
 import { createShimmerPlaceHolder } from "expo-shimmer-placeholder";
 import { LinearGradient } from "expo-linear-gradient";
+import { SignOutViewModel } from "../js/authManager";
+import { homeViewModel } from "../js/homeViewModel";
 
 const ShimmerPlaceHolder = createShimmerPlaceHolder(LinearGradient);
 
 const HomeScreen = ({ navigation }) => {
-  const [loading, setLoading] = useState(true);
+  const { habits, loading, getCurrentWeek } = homeViewModel();
+  const { handleSignOut } = SignOutViewModel(navigation);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
+  const renderDay = (date) => {
+    const dayAbbreviation = date.toLocaleDateString("en-US", {
+      weekday: "short",
+    });
+    const dayNumber = date.getDate();
+
+    return (
+      <View style={styles.dayContainer} key={date.toString()}>
+        <Text style={styles.dayConText}>{dayAbbreviation}</Text>
+        <View style={styles.backroundDate}>
+          <Text style={styles.backroundDateText}>{dayNumber}</Text>
+        </View>
+      </View>
+    );
+  };
+
+  const iconMapping = {
+    sport_blue: require("../assets/icons/sport.png"),
+    book_blue: require("../assets/icons/book.png"),
+    school_blue: require("../assets/icons/school.png"),
+    star_blue: require("../assets/icons/star.png"),
+    soccer_blue: require("../assets/icons/soccer.png"),
+    yoga_blue: require("../assets/icons/yoga.png"),
+    hiking_blue: require("../assets/icons/hiking.png"),
+    code_blue: require("../assets/icons/code.png"),
+    park_blue: require("../assets/icons/park.png"),
+    food_blue: require("../assets/icons/food.png"),
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.firstHeader}>
-        <TouchableOpacity style={styles.headerButton}>
+        <TouchableOpacity
+          style={styles.headerButton}
+          onPress={() => handleSignOut()}
+        >
           <Image
             style={styles.headerButtonIcon}
             source={require("../assets/icons/settings.png")}
@@ -40,24 +69,32 @@ const HomeScreen = ({ navigation }) => {
       </View>
       {loading ? (
         <View style={styles.shimmerContainer}>
-          <ShimmerPlaceHolder visible={!loading} style={styles.shimmer} shimmerColors={["#FFFFFF", "#E8E8E8", "#FFFFFF"]}/>
-          <ShimmerPlaceHolder visible={!loading} style={styles.shimmer} shimmerColors={["#FFFFFF", "#E8E8E8", "#FFFFFF"]}/>
+          <ShimmerPlaceHolder
+            visible={!loading}
+            style={styles.shimmer}
+            shimmerColors={["#FFFFFF", "#E8E8E8", "#FFFFFF"]}
+          />
+          <ShimmerPlaceHolder
+            visible={!loading}
+            style={styles.shimmer}
+            shimmerColors={["#FFFFFF", "#E8E8E8", "#FFFFFF"]}
+          />
         </View>
       ) : (
         <View style={styles.mainContainer}>
-          <View style={styles.mainContainer}>
-            <View style={styles.habitContainer}>
+          {habits.map((habit) => (
+            <View style={styles.habitContainer} key={habit.id}>
               <View style={styles.habitConHeader}>
                 <View style={styles.firstHabitConHeader}>
                   <Image
                     style={styles.firstHeaderConIcon}
-                    source={require("../assets/icons/sport.png")}
+                    source={iconMapping[habit.selectedIcon]}
                   />
-                  <Text style={styles.firstHeaderConTitle}>Sport</Text>
+                  <Text style={styles.firstHeaderConTitle}>{habit.title}</Text>
                 </View>
                 <View style={styles.secondHeaderConHeader}>
                   <View style={styles.secondHeaderConStreak}>
-                    <Text style={styles.secondHeaderConStreakText}>2</Text>
+                    <Text style={styles.secondHeaderConStreakText}>0</Text>
                     <Image
                       style={styles.secondHeaderConStreakIcon}
                       source={require("../assets/icons/streak_grey.png")}
@@ -72,123 +109,10 @@ const HomeScreen = ({ navigation }) => {
                 </View>
               </View>
               <View style={styles.dateContainer}>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Mon</Text>
-                  <View style={styles.backroundDate}>
-                    <Text style={styles.backroundDateText}>27</Text>
-                  </View>
-                </View>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Tue</Text>
-                  <View style={styles.backroundDate}>
-                    <Text style={styles.backroundDateText}>28</Text>
-                  </View>
-                </View>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Wed</Text>
-                  <View style={styles.backroundDate}>
-                    <Text style={styles.backroundDateText}>28</Text>
-                  </View>
-                </View>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Thu</Text>
-                  <View style={styles.backroundDate}>
-                    <Text style={styles.backroundDateText}>29</Text>
-                  </View>
-                </View>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Fri</Text>
-                  <View style={styles.backroundDate}>
-                    <Text style={styles.backroundDateText}>30</Text>
-                  </View>
-                </View>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Sat</Text>
-                  <View style={styles.backroundDate}>
-                    <Text style={styles.backroundDateText}>31</Text>
-                  </View>
-                </View>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Sun</Text>
-                  <View style={styles.backroundDate}>
-                    <Text style={styles.backroundDateText}>1</Text>
-                  </View>
-                </View>
+                {getCurrentWeek().map((date) => renderDay(date || []))}
               </View>
             </View>
-            <View style={styles.habitContainer}>
-              <View style={styles.habitConHeader}>
-                <View style={styles.firstHabitConHeader}>
-                  <Image
-                    style={styles.firstHeaderConIcon}
-                    source={require("../assets/icons/book.png")}
-                  />
-                  <Text style={styles.firstHeaderConTitle}>Lesen</Text>
-                </View>
-                <View style={styles.secondHeaderConHeader}>
-                  <View style={styles.secondHeaderConStreak}>
-                    <Text style={styles.secondHeaderConStreakTextActive}>
-                      1
-                    </Text>
-                    <Image
-                      style={styles.secondHeaderConStreakIcon}
-                      source={require("../assets/icons/streak.png")}
-                    />
-                  </View>
-                  <TouchableOpacity style={styles.secondHeaderConButtonActive}>
-                    <Image
-                      style={styles.secondHeaderConIcon}
-                      source={require("../assets/icons/check.png")}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.dateContainer}>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Mon</Text>
-                  <View style={styles.backroundDate}>
-                    <Text style={styles.backroundDateText}>27</Text>
-                  </View>
-                </View>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Tue</Text>
-                  <View style={styles.backroundDate}>
-                    <Text style={styles.backroundDateText}>28</Text>
-                  </View>
-                </View>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Wed</Text>
-                  <View style={styles.backroundDate}>
-                    <Text style={styles.backroundDateText}>28</Text>
-                  </View>
-                </View>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Thu</Text>
-                  <View style={styles.backroundDateGreen}>
-                    <Text style={styles.backroundDateTextGreen}>29</Text>
-                  </View>
-                </View>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Fri</Text>
-                  <View style={styles.backroundDate}>
-                    <Text style={styles.backroundDateText}>30</Text>
-                  </View>
-                </View>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Sat</Text>
-                  <View style={styles.backroundDate}>
-                    <Text style={styles.backroundDateText}>31</Text>
-                  </View>
-                </View>
-                <View style={styles.dayContainer}>
-                  <Text style={styles.dayConText}>Sun</Text>
-                  <View style={styles.backroundDate}>
-                    <Text style={styles.backroundDateText}>1</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
+          ))}
         </View>
       )}
       <View style={styles.fabContainer}>
@@ -198,7 +122,10 @@ const HomeScreen = ({ navigation }) => {
           endColor="rgba(0, 0, 0, 0.01)"
           offset={[0, 0]}
         >
-          <TouchableOpacity style={styles.FAB}>
+          <TouchableOpacity
+            style={styles.FAB}
+            onPress={() => navigation.navigate("AddHabit")}
+          >
             <Image
               style={styles.fabIcon}
               source={require("../assets/icons/add.png")}
@@ -250,13 +177,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     flexDirection: "row",
-    backgroundColor: "transparent",
   },
 
   headerTitle: {
     fontSize: 28,
     fontFamily: "Poppins-SemiBold",
-    marginTop: 6,
+    includeFontPadding: false,
   },
 
   shimmerContainer: {
@@ -269,7 +195,7 @@ const styles = StyleSheet.create({
 
   shimmer: {
     width: "100%",
-    height: 150,
+    height: 142,
     borderRadius: 25,
   },
 
@@ -312,9 +238,9 @@ const styles = StyleSheet.create({
 
   firstHeaderConTitle: {
     fontSize: 18,
-    fontFamily: "Poppins-Medium",
+    fontFamily: "Poppins-Bold",
     color: "#000000",
-    marginBottom: -3,
+    includeFontPadding: false,
   },
 
   secondHeaderConHeader: {
@@ -339,12 +265,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Poppins-Bold",
     color: "#D0D0D0",
+    includeFontPadding: false,
   },
 
   secondHeaderConStreakTextActive: {
     fontSize: 18,
     fontFamily: "Poppins-Bold",
     color: "#000000",
+    includeFontPadding: false,
   },
 
   secondHeaderConStreakIcon: {
@@ -394,7 +322,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Poppins-Medium",
     color: "#D0D0D0",
-    marginBottom: -5,
+    includeFontPadding: false,
   },
 
   backroundDate: {
@@ -419,14 +347,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Poppins-Medium",
     color: "#818181",
-    marginTop: 3,
+    includeFontPadding: false,
   },
 
   backroundDateTextGreen: {
     fontSize: 12,
     fontFamily: "Poppins-Medium",
     color: "#ffffff",
-    marginTop: 3,
+    includeFontPadding: false,
   },
 
   fabContainer: {
