@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -30,7 +30,10 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/"
+            "./assets/fonts/Poppins-Bold.ttf",
+            "./assets/fonts/Poppins-Regular.ttf",
+            "./assets/fonts/Poppins-Medium.ttf",
+            "./assets/fonts/Poppins-SemiBold.ttf"
           ]
         }
       ]
@@ -40,6 +43,7 @@
         "projectId": "8b3b4fd3-a976-4641-be73-a62efcbb0e08"
       }
     },
+    "assetBundlePatterns": ["**/*"],
     "owner": "lucagloger"
   }
 }
