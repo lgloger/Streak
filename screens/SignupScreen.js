@@ -13,13 +13,8 @@ import {
 import { SignupViewModel } from "../js/authManager";
 
 const SignUpScreen = ({ navigation }) => {
-  const {
-    email,
-    setEmail,
-    password,
-    setPassword,
-    handleSignup,
-  } = SignupViewModel(navigation);
+  const { email, setEmail, password, setPassword, handleSignup } =
+    SignupViewModel(navigation);
 
   return (
     <View style={styles.container}>
@@ -66,6 +61,7 @@ const SignUpScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.continueButton}
             onPress={() => handleSignup()}
+            activeOpacity={0.6}
           >
             <Text style={styles.buttonText}>Create</Text>
           </TouchableOpacity>
@@ -74,6 +70,7 @@ const SignUpScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.helpButton}
             onPress={() => navigation.navigate("Login")}
+            activeOpacity={0.6}
           >
             <Text style={styles.helpText}>
               Already have an account? Sign In
@@ -109,7 +106,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontFamily: "Poppins-SemiBold",
     color: "#000000",
-    includeFontPadding: false
+    includeFontPadding: false,
   },
 
   mainContainer: {
@@ -141,7 +138,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Poppins-Medium",
     color: "#000000",
-    includeFontPadding: false
+    includeFontPadding: false,
   },
 
   buttonContainer: {
@@ -167,7 +164,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Poppins-Medium",
     color: "#000000",
-    includeFontPadding: false
+    includeFontPadding: false,
   },
 
   helpContainer: {

@@ -57,7 +57,7 @@ const SettingsScreenScreen = ({ navigation }) => {
             <Text style={styles.settingsText}>{email}</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.settingsCon}>
+        <TouchableOpacity style={styles.settingsCon} activeOpacity={0.6}>
           <View style={styles.headerButton}>
             <Image
               style={styles.headerButtonIcon}
@@ -69,6 +69,7 @@ const SettingsScreenScreen = ({ navigation }) => {
         <TouchableOpacity
           style={styles.settingsCon}
           onPress={() => handleSignOut()}
+          activeOpacity={0.6}
         >
           <View style={styles.headerButtonRed}>
             <Image
@@ -81,6 +82,7 @@ const SettingsScreenScreen = ({ navigation }) => {
         <TouchableOpacity
           style={styles.settingsCon}
           onPress={() => setIsModalVisible(true)}
+          activeOpacity={0.6}
         >
           <View style={styles.headerButtonRed}>
             <Image

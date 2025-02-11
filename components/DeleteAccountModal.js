@@ -44,10 +44,15 @@ const DeleteAccountModal = ({ visible, onClose, onDelete, email }) => {
                 onDelete(password);
                 onClose();
               }}
+              activeOpacity={0.6}
             >
               <Text style={styles.buttonText}>Delete</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.continueButton} onPress={onClose}>
+            <TouchableOpacity
+              style={styles.continueButton}
+              onPress={onClose}
+              activeOpacity={0.6}
+            >
               <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
           </View>

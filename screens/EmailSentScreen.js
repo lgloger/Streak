@@ -2,7 +2,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
   TouchableOpacity,
   StatusBar as RNStatusBar,
   Platform,
@@ -25,6 +24,7 @@ const EmailSentScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.continueButton}
             onPress={() => navigation.navigate("Login")}
+            activeOpacity={0.6}
           >
             <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontFamily: "Poppins-SemiBold",
     color: "#000000",
-    includeFontPadding: false
+    includeFontPadding: false,
   },
 
   mainContainer: {
@@ -82,14 +82,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Poppins-Medium",
     color: "#000000",
-    includeFontPadding: false
+    includeFontPadding: false,
   },
 
   text: {
     fontSize: 14,
     fontFamily: "Poppins-Medium",
     color: "#000000",
-    includeFontPadding: false
+    includeFontPadding: false,
   },
 
   buttonContainer: {
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Poppins-Medium",
     color: "#000000",
-    includeFontPadding: false
+    includeFontPadding: false,
   },
 });
 

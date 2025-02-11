@@ -75,6 +75,7 @@ const HomeScreen = ({ navigation }) => {
         <TouchableOpacity
           style={styles.headerButton}
           onPress={() => navigation.navigate("Settings")}
+          activeOpacity={0.6}
         >
           <Image
             style={styles.headerButtonIcon}
@@ -137,6 +138,7 @@ const HomeScreen = ({ navigation }) => {
                         : styles.secondHeaderConButton
                     }
                     onPress={() => handleCheckPress(habit)}
+                    activeOpacity={0.6}
                   >
                     <Image
                       style={styles.secondHeaderConIcon}
@@ -170,6 +172,7 @@ const HomeScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.FAB}
             onPress={() => navigation.navigate("AddHabit")}
+            activeOpacity={0.6}
           >
             <Image
               style={styles.fabIcon}

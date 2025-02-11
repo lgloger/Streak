@@ -60,6 +60,7 @@ const LoginScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.continueButton}
             onPress={() => handleSignin()}
+            activeOpacity={0.6}
           >
             <Text style={styles.buttonText}>Sign In</Text>
           </TouchableOpacity>
@@ -68,12 +69,14 @@ const LoginScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.helpButton}
             onPress={() => navigation.navigate("Signup")}
+            activeOpacity={0.6}
           >
             <Text style={styles.helpText}>Create account</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.helpButton}
             onPress={() => navigation.navigate("ResetPassword")}
+            activeOpacity={0.6}
           >
             <Text style={styles.helpText}>Forgot Password?</Text>
           </TouchableOpacity>
@@ -98,7 +101,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 10,
-    marginTop: Platform.OS === "android" ? (RNStatusBar.currentHeight || 0) + 60 : 60,
+    marginTop:
+      Platform.OS === "android" ? (RNStatusBar.currentHeight || 0) + 60 : 60,
     marginBottom: 60,
   },
 
@@ -106,7 +110,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontFamily: "Poppins-SemiBold",
     color: "#000000",
-    includeFontPadding: false
+    includeFontPadding: false,
   },
 
   mainContainer: {
@@ -138,7 +142,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Poppins-Medium",
     color: "#000000",
-    includeFontPadding: false
+    includeFontPadding: false,
   },
 
   buttonContainer: {
@@ -164,7 +168,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Poppins-Medium",
     color: "#000000",
-    includeFontPadding: false
+    includeFontPadding: false,
   },
 
   helpContainer: {
