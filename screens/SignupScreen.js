@@ -18,8 +18,6 @@ const SignUpScreen = ({ navigation }) => {
     setEmail,
     password,
     setPassword,
-    username,
-    setUsername,
     handleSignup,
   } = SignupViewModel(navigation);
 

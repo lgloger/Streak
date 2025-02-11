@@ -33,7 +33,6 @@ const SigninViewModel = (navigation) => {
 const SignupViewModel = (navigation) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
 
   const handleSignup = async () => {
     try {
@@ -45,7 +44,6 @@ const SignupViewModel = (navigation) => {
       const user = userCredential.user;
 
       await setDoc(doc(db, "users", user.uid), {
-        username: username,
         email: email,
       });
 
