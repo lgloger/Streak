@@ -6,8 +6,6 @@ import {
   query,
   doc,
   updateDoc,
-  arrayUnion,
-  arrayRemove,
 } from "firebase/firestore";
 
 const homeViewModel = () => {

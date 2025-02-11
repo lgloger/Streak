@@ -13,14 +13,12 @@ import {
 } from "react-native";
 import { createShimmerPlaceHolder } from "expo-shimmer-placeholder";
 import { LinearGradient } from "expo-linear-gradient";
-import { SignOutViewModel } from "../js/authManager";
 import { homeViewModel } from "../js/homeViewModel";
 
 const ShimmerPlaceHolder = createShimmerPlaceHolder(LinearGradient);
 
 const HomeScreen = ({ navigation }) => {
   const { habits, loading, getCurrentWeek, toggleDay } = homeViewModel();
-  const { handleSignOut } = SignOutViewModel(navigation);
 
   const handleCheckPress = (habit) => {
     const currentDates = habit.completedDates || [];
@@ -76,7 +74,7 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.firstHeader}>
         <TouchableOpacity
           style={styles.headerButton}
-          onPress={() => handleSignOut()}
+          onPress={() => navigation.navigate("Settings")}
         >
           <Image
             style={styles.headerButtonIcon}

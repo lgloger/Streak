@@ -14,7 +14,8 @@ import { addHabitViewModel } from "../js/dataManger";
 import RBSheet from "react-native-raw-bottom-sheet";
 
 const addHabitScreen = ({ navigation }) => {
-  const { selectedIcon, setSelectedIcon, title, setTitle, addHabit } = addHabitViewModel(navigation);
+  const { selectedIcon, setSelectedIcon, title, setTitle, addHabit } =
+    addHabitViewModel(navigation);
 
   const refRBSheet = React.createRef();
 
@@ -60,36 +61,34 @@ const addHabitScreen = ({ navigation }) => {
       </View>
       <View style={styles.secondHeader}></View>
       <View style={styles.mainContainer}>
-        <View style={styles.mainContainer}>
-          <View style={styles.habitContainer}>
-            <View style={styles.habitActivityCon}>
-              {Array.from({ length: 100 }).map((_, index) => (
-                <View key={index} style={styles.habitActivity}></View>
-              ))}
-            </View>
+        <View style={styles.habitContainer}>
+          <View style={styles.habitActivityCon}>
+            {Array.from({ length: 100 }).map((_, index) => (
+              <View key={index} style={styles.habitActivity}></View>
+            ))}
           </View>
-          <View style={styles.inputContainer}>
-            <TouchableOpacity
-              style={styles.headerButton}
-              onPress={() => refRBSheet.current.open()}
-            >
-              <Image
-                style={styles.headerButtonIcon}
-                source={iconMapping[selectedIcon]}
-              />
-            </TouchableOpacity>
-            {title === "" && <Text style={styles.placeholder}>Untitled</Text>}
-            <TextInput
-              style={styles.input}
-              onChangeText={setTitle}
-              value={title}
-              placeholderTextColor="#000000"
-              keyboardType="text"
-              selectionColor="#FFFFFF"
-              cursorColor="#000000"
-              caretHidden={false}
+        </View>
+        <View style={styles.inputContainer}>
+          <TouchableOpacity
+            style={styles.headerButton}
+            onPress={() => refRBSheet.current.open()}
+          >
+            <Image
+              style={styles.headerButtonIcon}
+              source={iconMapping[selectedIcon]}
             />
-          </View>
+          </TouchableOpacity>
+          {title === "" && <Text style={styles.placeholder}>Untitled</Text>}
+          <TextInput
+            style={styles.input}
+            onChangeText={setTitle}
+            value={title}
+            placeholderTextColor="#000000"
+            keyboardType="text"
+            selectionColor="#FFFFFF"
+            cursorColor="#000000"
+            caretHidden={false}
+          />
         </View>
       </View>
       <RBSheet
@@ -290,7 +289,7 @@ const styles = StyleSheet.create({
   manualDragHandle: {
     width: 43,
     height: 5,
-    position: 'absolute',
+    position: "absolute",
     top: -20,
     left: "49.5%",
     backgroundColor: "#E8E8E8",

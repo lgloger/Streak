@@ -3,10 +3,15 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
+  reauthenticateWithCredential,
   signOut,
+  deleteUser,
 } from "firebase/auth";
+import { EmailAuthProvider } from "firebase/auth";
 import { auth, db } from "../js/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { doc, setDoc, deleteDoc } from "firebase/firestore";
+import { ToastAndroid } from "react-native";
 
 const SigninViewModel = (navigation) => {
   const [email, setEmail] = useState("");
@@ -58,8 +63,6 @@ const SignupViewModel = (navigation) => {
     setEmail,
     password,
     setPassword,
-    username,
-    setUsername,
     handleSignup,
   };
 };
@@ -94,8 +97,40 @@ const SignOutViewModel = (navigation) => {
   };
 
   return {
-    handleSignOut
+    handleSignOut,
   };
 };
 
-export { SigninViewModel, SignupViewModel, ResetPasswordViewModel, SignOutViewModel };
+const DeleteAccountViewModel = (navigation) => {
+  const handleDeleteAccount = async (password) => {
+    const user = auth.currentUser;
+
+    try {
+      const credential = EmailAuthProvider.credential(user.email, password);
+      await reauthenticateWithCredential(user, credential);
+
+      await deleteDoc(doc(db, "users", user.uid));
+
+      await deleteUser(user);
+
+      navigation.navigate("Login");
+
+      ToastAndroid.show("Account Deleted", ToastAndroid.SHORT);
+    } catch (error) {
+      console.error(error);
+      ToastAndroid.show("Failed to Delete Account", ToastAndroid.SHORT);
+    }
+  };
+
+  return {
+    handleDeleteAccount,
+  };
+};
+
+export {
+  SigninViewModel,
+  SignupViewModel,
+  ResetPasswordViewModel,
+  SignOutViewModel,
+  DeleteAccountViewModel,
+};
