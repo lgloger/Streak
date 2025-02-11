@@ -19,20 +19,40 @@ import { homeViewModel } from "../js/homeViewModel";
 const ShimmerPlaceHolder = createShimmerPlaceHolder(LinearGradient);
 
 const HomeScreen = ({ navigation }) => {
-  const { habits, loading, getCurrentWeek } = homeViewModel();
+  const { habits, loading, getCurrentWeek, toggleDay } = homeViewModel();
   const { handleSignOut } = SignOutViewModel(navigation);
 
-  const renderDay = (date) => {
+  const handleCheckPress = (habit) => {
+    const currentDates = habit.completedDates || [];
+    toggleDay(habit.id, currentDates);
+  };
+
+  const renderDay = (date, completedDates = []) => {
     const dayAbbreviation = date.toLocaleDateString("en-US", {
       weekday: "short",
     });
-    const dayNumber = date.getDate();
+    const dateStr = date.toISOString().split("T")[0];
+    const isToday = new Date().toDateString() === date.toDateString();
+    const isCompleted = completedDates.includes(dateStr);
 
     return (
       <View style={styles.dayContainer} key={date.toString()}>
         <Text style={styles.dayConText}>{dayAbbreviation}</Text>
-        <View style={styles.backroundDate}>
-          <Text style={styles.backroundDateText}>{dayNumber}</Text>
+        <View
+          style={[
+            styles.backroundDate,
+            isCompleted && styles.backroundDateGreen,
+          ]}
+        >
+          <Text
+            style={
+              isCompleted
+                ? styles.backroundDateTextGreen
+                : styles.backroundDateText
+            }
+          >
+            {date.getDate()}
+          </Text>
         </View>
       </View>
     );
@@ -70,12 +90,10 @@ const HomeScreen = ({ navigation }) => {
       {loading ? (
         <View style={styles.shimmerContainer}>
           <ShimmerPlaceHolder
-            visible={!loading}
             style={styles.shimmer}
             shimmerColors={["#FFFFFF", "#E8E8E8", "#FFFFFF"]}
           />
           <ShimmerPlaceHolder
-            visible={!loading}
             style={styles.shimmer}
             shimmerColors={["#FFFFFF", "#E8E8E8", "#FFFFFF"]}
           />
@@ -94,22 +112,51 @@ const HomeScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.secondHeaderConHeader}>
                   <View style={styles.secondHeaderConStreak}>
-                    <Text style={styles.secondHeaderConStreakText}>0</Text>
+                    <Text
+                      style={
+                        habit.streak > 0
+                          ? styles.secondHeaderConStreakTextActive
+                          : styles.secondHeaderConStreakText
+                      }
+                    >
+                      {habit.streak}
+                    </Text>
                     <Image
                       style={styles.secondHeaderConStreakIcon}
-                      source={require("../assets/icons/streak_grey.png")}
+                      source={
+                        habit.streak > 0
+                          ? require("../assets/icons/streak.png")
+                          : require("../assets/icons/streak_grey.png")
+                      }
                     />
                   </View>
-                  <TouchableOpacity style={styles.secondHeaderConButton}>
+                  <TouchableOpacity
+                    style={
+                      habit.completedDates?.includes(
+                        new Date().toISOString().split("T")[0]
+                      )
+                        ? styles.secondHeaderConButtonActive
+                        : styles.secondHeaderConButton
+                    }
+                    onPress={() => handleCheckPress(habit)}
+                  >
                     <Image
                       style={styles.secondHeaderConIcon}
-                      source={require("../assets/icons/check_grey.png")}
+                      source={
+                        habit.completedDates?.includes(
+                          new Date().toISOString().split("T")[0]
+                        )
+                          ? require("../assets/icons/check.png")
+                          : require("../assets/icons/check_grey.png")
+                      }
                     />
                   </TouchableOpacity>
                 </View>
               </View>
               <View style={styles.dateContainer}>
-                {getCurrentWeek().map((date) => renderDay(date || []))}
+                {getCurrentWeek().map((date) =>
+                  date ? renderDay(date, habit.completedDates) : null
+                )}
               </View>
             </View>
           ))}

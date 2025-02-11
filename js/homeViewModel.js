@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "../js/firebaseConfig";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from "firebase/firestore";
 
 const homeViewModel = () => {
   const [habits, setHabits] = useState([]);
@@ -25,6 +33,38 @@ const homeViewModel = () => {
     }
   };
 
+  const toggleDay = async (habitId, completedDates) => {
+    const today = new Date().toISOString().split("T")[0];
+    const habitRef = doc(db, "users", userId, "habits", habitId);
+
+    const newDates = completedDates.includes(today)
+      ? completedDates.filter((d) => d !== today)
+      : [...completedDates, today];
+
+    const streak = calculateStreak(newDates);
+
+    await updateDoc(habitRef, {
+      completedDates: newDates,
+      streak,
+    });
+    fetchHabits();
+  };
+
+  const calculateStreak = (dates) => {
+    const sorted = [...dates].sort();
+    let streak = 0;
+    let prevDate = new Date();
+
+    for (let i = sorted.length - 1; i >= 0; i--) {
+      const currDate = new Date(sorted[i]);
+      if ((prevDate - currDate) / (1000 * 3600 * 24) <= 1) {
+        streak++;
+        prevDate = currDate;
+      } else break;
+    }
+    return streak;
+  };
+
   const getCurrentWeek = () => {
     const dates = [];
     const today = new Date();
@@ -47,7 +87,7 @@ const homeViewModel = () => {
     fetchHabits();
   }, []);
 
-  return { habits, loading, fetchHabits, getCurrentWeek };
+  return { habits, loading, fetchHabits, getCurrentWeek, toggleDay };
 };
 
 export { homeViewModel };
