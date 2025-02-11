@@ -28,9 +28,17 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/"]
+          "fonts": [
+            "./assets/fonts/"
+          ]
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8b3b4fd3-a976-4641-be73-a62efcbb0e08"
+      }
+    },
+    "owner": "lucagloger"
   }
 }
