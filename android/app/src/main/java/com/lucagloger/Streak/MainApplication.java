@@ -1,4 +1,4 @@
-package com.streak;
+package com.lucagloger.Streak;
 
 import android.app.Application;
 import android.content.res.Configuration;
